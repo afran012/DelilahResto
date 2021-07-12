@@ -1,0 +1,34 @@
+{
+  "name": "delilahresto",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "nodejs.",
+    "acamica",
+    "JavaScript",
+    "Back-End"
+  ],
+  "author": "Airan Steven Franco Galeano",
+  "license": "ISC",
+  "description": "Proyecto 3 Back-End",
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "eslint": "^7.30.0",
+    "nodemon": "^2.0.12",
+    "prettier": "^2.3.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/afran012/DelilahResto.git"
+  },
+  "bugs": {
+    "url": "https://github.com/afran012/DelilahResto/issues"
+  },
+  "homepage": "https://github.com/afran012/DelilahResto#readme"
+}
