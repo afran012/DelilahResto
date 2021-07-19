@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize')
-const path = 'mysql://root:@localhost:5432/bandas'
+const path = 'mysql://root:@localhost:5432/RestauratDB'
 
 const sequelize = new Sequelize(path, {
     dialect: 'mysql',

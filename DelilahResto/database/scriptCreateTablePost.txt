@@ -1,0 +1,94 @@
+CREATE TABLE UserState (
+StateID  int NOT NULL PRIMARY KEY,
+Name varchar(255) NOT NULL
+);
+
+
+CREATE TABLE Users (
+UserID int NOT NULL PRIMARY KEY,
+UserName varchar(255) NOT NULL,
+FullName varchar(255) NOT NULL,
+Password varchar(255) NOT NULL,
+Address varchar(255) NOT NULL,
+PhoneNumber varchar(255) NOT NULL,
+Email varchar(255) NOT NULL,
+StateID  int
+);
+
+ALTER TABLE Users ADD FOREIGN KEY (StateID) REFERENCES UserState(StateID); 
+
+
+CREATE TABLE OrderState (
+StateID int NOT NULL PRIMARY KEY,
+Name varchar(255) NOT NULL
+);
+
+CREATE TABLE Orders (
+OrderID int NOT NULL PRIMARY KEY,
+StateID int NOT NULL,
+OrderHour time,
+PaymentType varchar(255) NOT NULL,
+UserID int
+);
+
+ALTER TABLE Orders ADD FOREIGN KEY (StateID) REFERENCES OrderState(StateID); 
+ALTER TABLE Orders ADD FOREIGN KEY (UserID) REFERENCES Users(UserID); 
+
+CREATE TABLE Products (
+ProductID int NOT NULL PRIMARY KEY,
+ProductName varchar(255) NOT NULL,
+ProductPrice int NOT NULL
+);
+
+CREATE TABLE ProductOrder (
+ProductOrderID int NOT NULL PRIMARY KEY,
+OrderID int,
+ProductID int
+);
+
+ALTER TABLE ProductOrder ADD FOREIGN KEY (OrderID) REFERENCES Orders(OrderID); 
+
+ALTER TABLE ProductOrder ADD FOREIGN KEY (ProductID) REFERENCES Products(ProductID);
+
+
+
+
+INSERT INTO "RestaurantDB".public.users (UserName,FullName,Password,Address,PhoneNumber,Email,StateID, UserID) VALUES
+	 ('FredyMer','Freddie Mercury','123','calle 123','3113434234','afran@asdf.com',null, 1),
+	 ('JhonSmi','John Smith','123','calle 123','3113434234','afran@asdf.com',null, 2),
+	 ('BrianMay','Brian May','123','calle 123','3113434234','afran@asdf.com',null, 3),
+	 ('MalinQui','Malin Quist','123','calle 123','3113434234','afran@asdf.com',null, 4),
+	 ('JordannaKitch','Jordanna Kitchener','123','calle 123','3113434234','afran@asdf.com',null, 5),
+	 ('IvanSanders','Ivan Sanders','123','calle 123','3113434234','afran@asdf.com',null, 6),
+	 ('Monica Ribeiro','Monica Ribeiro','123','calle 123','3113434234','afran@asdf.com',null, 7);
+	
+INSERT INTO "RestaurantDB".public.userstate (Name, StateID) VALUES
+	 ('Standart', 1),
+	 ('Admin', 2);
+	
+INSERT INTO "RestaurantDB".public.orderstate (Name, StateID) VALUES
+	 ('Confirmed', 1),
+	 ('Preparing', 2),
+	 ('On the way', 3),
+	 ('Delivered', 4);
+
+INSERT INTO "RestaurantDB".public.products (ProductName, ProductPrice, ProductID) VALUES
+	 ('Bagel de Salmón',425, 1),
+	 ('Hamburguesa Clásica',350, 2),
+	 ('Sandwich Veggie',310, 3),
+	 ('Ensalada Veggie',340, 4),
+	 ('Focaccia',300, 5),
+	 ('Sandwich Focaccia',440, 6),
+	 ('Sandwich Focaccia 2',440, 7);
+	
+INSERT INTO "RestaurantDB".public.Orders (StateID,OrderHour,PaymentType,UserID, OrderID) VALUES
+	 (1,'12:50:00','Credit',2, 1),
+	 (1,'12:50:00','cash',1, 2),
+	 (1,'12:50:00','cash',3, 3);
+
+INSERT INTO "RestaurantDB".public.ProductOrder (OrderID, ProductID, ProductOrderID) VALUES
+	 (2,1, 1),
+	 (1,2, 2),
+	 (1,5, 5);
+	 (3,3, 3),
+	 (2,4, 4),
