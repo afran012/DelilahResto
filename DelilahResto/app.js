@@ -3,18 +3,16 @@ const helmet = require('helmet')
 const bodyParser = require('body-parser')
 const PORT = 4000
 const cors = require('cors')
-const sequelize = require('./conexion')
+const sequelize = require('./connection')
 
 
 // Routes
-const usersRoutes = require('./routers/user.routes')
+const usersRoutes = require('./routers/user.routers')
 
 //Middleware
 const app = express()
 app.use(helmet())
 app.use(cors())
-
-
 app.use(express.json())
 //Middleware
 
