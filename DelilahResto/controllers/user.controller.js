@@ -29,7 +29,7 @@ const getUsers = async (req, res) =>{
         const result = await sequelize.query(`SELECT u.username from Users u`, {type: sequelize.QueryTypes.SELECT})
         console.log(result)
         res.status(200).json({
-            message: 'usuaruio creado',
+            message: 'usuarios existentes',
             'msg':true,
             'data': result
         })
@@ -43,17 +43,60 @@ const deleteUser = async (req, res) =>{
     
     try {
         const result = await sequelize.query(`DELETE FROM Users WHERE UserID = ${req.params.id}`)
+        console.log(req.params.id)
+        console.log( "result" , result )
         res.status(204).json({
-            message: 'usuaruio eliminada',
-            result
+            'msg':true,
+            message: 'usuario eliminado',
+            'data': result
         })
     } catch (error) {
         console.log(`error en la inserción ${error}`)
     }
 }
 
+const updateUser = async (req, res) =>{
+    const { UserName, FullName, Password, Address, PhoneNumber, Email, StateID=1 } = req.body
+    console.log("req.body" , req.body)
 
+    try {
+        const result = await sequelize.query(`UPDATE Users 
+        SET UserName = '${UserName}',  FullName = '${FullName}', 
+        Password = '${Password}',  Address = '${Address}', 
+        PhoneNumber = ${PhoneNumber}, Email = '${Email}', 
+        StateID = ${StateID} WHERE UserID = ${req.params.id}`,
+        { type: sequelize.QueryTypes.INSERT })
+
+        console.log(result)
+        res.status(204).json({
+            message: 'usuario actulizado'
+    })
+
+    } catch (error) {
+        console.log(`error en la inserción ${error}`)
+    }
+}
+
+
+const getUsersById = async (req, res) =>{
+
+    try {
+        const result = await sequelize.query(`SELECT * FROM Users 
+        WHERE UserID = ${req.params.id}`, 
+        {type: sequelize.QueryTypes.SELECT})
+        console.log(result)
+        res.status(200).json({
+            message: 'usuario:',
+            'msg':true,
+            'data': result
+        })
+    } catch (error) {
+        console.log(`error en la inserción ${error}`)
+    }
+}
 
 exports.createUser = createUser
 exports.getUsers = getUsers
 exports.deleteUser = deleteUser
+exports.updateUser = updateUser
+exports.getUsersById = getUsersById
