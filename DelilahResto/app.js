@@ -11,6 +11,7 @@ const usersRoutes = require('./routers/user.routers')
 const ordersRoutes = require('./routers/orders.routers')
 const orderStateRoutes = require('./routers/orderstate.routers')
 const ProductorderRoutes = require('./routers/productorder.routers')
+const ProductsRoutes = require('./routers/products.routers')
 
 //Middleware
 const app = express()
@@ -25,6 +26,7 @@ app.use('/api/v1/users', usersRoutes)
 app.use('/api/v1/orders', ordersRoutes)
 app.use('/api/v1/orderstate', orderStateRoutes)
 app.use('/api/v1/productorder', ProductorderRoutes)
+app.use('/api/v1/products', ProductsRoutes)
 
 
 //Server
