@@ -18,7 +18,8 @@ app.use(express.json())
 
 // Routes use
 
-app.use('/api/users', usersRoutes)
+app.use('/api/v1/users', usersRoutes)
+app.use('/api/v1/signUp', usersRoutes)
 
 //Server
 app.listen(PORT, ()=>{

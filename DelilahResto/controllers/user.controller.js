@@ -1,14 +1,22 @@
 const sequelize = require('../connection')
 
 const createUser = async (req, res) =>{
-    const { UserID, UserName, FullName, Password, Address, PhoneNumber, Email, StateID } = req.body
+    const { UserName, FullName, Password, Address, PhoneNumber, Email, StateID } = req.body
 
-    let arrayInsertUser = [`${UserID}`, `${UserName}`, `${FullName}`, `${Password}`, `${Address}`, `${PhoneNumber}`, `${Email}`, `${StateID}`]
+    let arrayInsertUser = [ `${UserName}`, `${FullName}`, `${Password}`, `${Address}`, `${PhoneNumber}`, `${Email}`, `${StateID}`]
+
+
+    console.log("arrayInsertUser",arrayInsertUser)
 
     try {
-        const user = await sequelize.query('INSERT INTO Users(UserID, UserName, FullName, Password, Address, PhoneNumber, Email, StateID) VALUES( ?, ?, ?, ?, ?, ?, ?, ?)',
+        const user = await sequelize.query('INSERT INTO Users(UserName, FullName, Password, Address, PhoneNumber, Email, StateID) VALUES( ?, ?, ?, ?, ?, ?, ?)',
         {replacements: arrayInsertUser , type: sequelize.QueryTypes.INSERT })
-        res.status(201).json({user})
+        
+        console.log(`inserción ${user}`)
+        res.status(201).json({
+            'msg':true,
+            'data': user
+        })
     } catch (error) {
         console.log(`error en la inserción ${error}`)
         res.status(500).json({error})
@@ -16,15 +24,32 @@ const createUser = async (req, res) =>{
 }
 
 const getUsers = async (req, res) =>{
-
     try {
-        const result = await sequelize.query(`select u.username from users u`, {type: sequelize.QueryTypes.SELECT})
+        const result = await sequelize.query(`SELECT u.username from Users u`, {type: sequelize.QueryTypes.SELECT})
         console.log(result)
-        res.status(200).json({result})
+        res.status(200).json({
+            'msg':true,
+            'data': result
+        })
     } catch (error) {
         console.log(`error en la inserción ${error}`)
     }
 }
+
+
+const deleteUser = async (req, res) =>{
+    
+    try {
+        const result = await sequelize.query(`DELETE FROM Users WHERE id_banda = ${req.params.id}`)
+        res.status(204).json({
+            message: 'banda eliminada',
+            result
+        })
+    } catch (error) {
+        console.log(`error en la inserción ${error}`)
+    }
+}
+
 
 
 exports.createUser = createUser

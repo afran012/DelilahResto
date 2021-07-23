@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize')
-/* Use MAriaDB Server
+/*
+//Use MAriaDB Server
 const path = 'mysql://admin:password@localhost:3306/Restaurant'
 const sequelize = new Sequelize(path, {
     dialect: 'mysql',
