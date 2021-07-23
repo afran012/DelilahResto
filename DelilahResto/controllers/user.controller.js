@@ -1,7 +1,7 @@
 const sequelize = require('../connection')
 
 const createUser = async (req, res) =>{
-    const { UserName, FullName, Password, Address, PhoneNumber, Email, StateID } = req.body
+    const { UserName, FullName, Password, Address, PhoneNumber, Email, StateID=1 } = req.body
 
     let arrayInsertUser = [ `${UserName}`, `${FullName}`, `${Password}`, `${Address}`, `${PhoneNumber}`, `${Email}`, `${StateID}`]
 
@@ -14,6 +14,7 @@ const createUser = async (req, res) =>{
         
         console.log(`inserción ${user}`)
         res.status(201).json({
+            message: 'usuaruio creado',
             'msg':true,
             'data': user
         })
@@ -28,6 +29,7 @@ const getUsers = async (req, res) =>{
         const result = await sequelize.query(`SELECT u.username from Users u`, {type: sequelize.QueryTypes.SELECT})
         console.log(result)
         res.status(200).json({
+            message: 'usuaruio creado',
             'msg':true,
             'data': result
         })
@@ -40,9 +42,9 @@ const getUsers = async (req, res) =>{
 const deleteUser = async (req, res) =>{
     
     try {
-        const result = await sequelize.query(`DELETE FROM Users WHERE id_banda = ${req.params.id}`)
+        const result = await sequelize.query(`DELETE FROM Users WHERE UserID = ${req.params.id}`)
         res.status(204).json({
-            message: 'banda eliminada',
+            message: 'usuaruio eliminada',
             result
         })
     } catch (error) {
@@ -54,3 +56,4 @@ const deleteUser = async (req, res) =>{
 
 exports.createUser = createUser
 exports.getUsers = getUsers
+exports.deleteUser = deleteUser
