@@ -8,6 +8,7 @@ const sequelize = require('./connection')
 
 // Routes
 const usersRoutes = require('./routers/user.routers')
+const ordersRoutes = require('./routers/orders.routers')
 
 //Middleware
 const app = express()
@@ -19,7 +20,8 @@ app.use(express.json())
 // Routes use
 
 app.use('/api/v1/users', usersRoutes)
-app.use('/api/v1/signUp', usersRoutes)
+app.use('/api/v1/orders', ordersRoutes)
+
 
 //Server
 app.listen(PORT, ()=>{
