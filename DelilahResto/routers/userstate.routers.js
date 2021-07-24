@@ -1,11 +1,11 @@
 const express = require('express')
 const router = express.Router()
-const orderStateController = require('../controllers/orderstate.controller')
+const userStateController = require('../controllers/userstate.controller')
 
-router.get('/', orderStateController.getOrderState)
-router.get('/:id', orderStateController.getOrderStateById)
-router.post('/new', orderStateController.createOrderState)
-router.delete('/delete/:id',orderStateController.deleteOrderState)
-router.put('/update/:id',orderStateController.updateOrderState)
+router.get('/', userStateController.getUserState)
+router.get('/:id', userStateController.getUserStateById)
+router.post('/new', userStateController.createUserState)
+router.delete('/delete/:id',userStateController.deleteUserState)
+router.put('/update/:id',userStateController.updateUserState)
 
 module.exports = router

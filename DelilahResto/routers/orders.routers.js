@@ -8,5 +8,6 @@ router.post('/new', ordersController.createOrder)
 router.delete('/delete/:id',ordersController.deleteOrder)
 router.put('/update/:id',ordersController.updateOrder)
 router.put('/updateState/:id',ordersController.updateState)
+router.get('/users/:id', ordersController.getOrderByUserID)
 
 module.exports = router
