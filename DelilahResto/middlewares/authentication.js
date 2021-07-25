@@ -1,9 +1,8 @@
 const express = require('express')
+require('dotenv').config()
 const router = express.Router()
 const jwt = require('jsonwebtoken');
-const JwtSecretKey = "process.env.key_token"
-
-require('dotenv').config()
+const JwtSecretKey = process.env.key_token
 const userController = require('../controllers/user.controller');//validateUser
 
 const validadteUserCredentials = async ( req, res, next ) => {
@@ -52,13 +51,13 @@ const validateToken = ( req , res , next ) => {
 
 
 const validateAdmin = ( req , res , next ) => {
-    const token = req.headers.authorization;
+    const token = req.headers.authorization.split(" ")[1];
     jwt.verify( token , JwtSecretKey , (error, decoded) => {
         if(error) {
             return res.status(401).json({msg: "token invalido"})
         }
-        console.log(decoded.stateid)
-        if (decoded.stateid != 2) {
+        console.log(decoded.userState)
+        if (decoded.userState != 2) {
             return res.status(401).json({ message: "Permission Denied" })
         }
         next()
