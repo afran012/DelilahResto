@@ -12,7 +12,7 @@ const createUser = async (req, res) =>{
 
     try {
         const user = await sequelize.query('INSERT INTO Users(UserName, FullName, Password, Address, PhoneNumber, Email, StateID) VALUES( ?, ?, ?, ?, ?, ?, ?)',
-        {replacements: arrayInsertUser , type: sequelize.QueryTypes.INSERT })
+        {replacements: arrayInsertUser , type: sequelize.QueryTypes.INSERT } , { raw: true });
         
         console.log(`inserción ${user}`)
         res.status(201).json({
@@ -28,8 +28,9 @@ const createUser = async (req, res) =>{
 
 const getUsers = async (req, res) =>{
     try {
-        const result = await sequelize.query(`SELECT u.username from Users u`, {type: sequelize.QueryTypes.SELECT})
-        console.log(result)
+        const result = await sequelize.query(`SELECT u.username from Users u`, 
+        {type: sequelize.QueryTypes.SELECT});
+        console.log("result" , result)
         res.status(200).json({
             message: 'usuarios existentes',
             'msg':true,
@@ -97,8 +98,40 @@ const getUsersById = async (req, res) =>{
     }
 }
 
+const validateUser = async (user) => {
+    //const { user , password } = req.body
+    //console.log( "UserName" , UserName )
+    console.log( "user" , user )
+    try {
+        const result = await sequelize.query(`SELECT u.password , u.stateid 
+        FROM Users u WHERE username = '${user}'`, 
+        {type: sequelize.QueryTypes.SELECT})
+
+
+        console.log("result[0]" , result[0])
+        /*
+        res.status(200).json({
+            message: 'usuario:',
+            'msg':true,
+            'data': result
+
+        })*/
+        return result[0]
+    } catch (error){
+        console.log(`Error ${error}`)
+    }
+}
+
+const loginUser = async (req, res) =>{
+    console.log("Validando Usuario")
+
+}
+
+
 exports.createUser = createUser
 exports.getUsers = getUsers
 exports.deleteUser = deleteUser
 exports.updateUser = updateUser
 exports.getUsersById = getUsersById
+exports.validateUser = validateUser
+exports.loginUser = loginUser
