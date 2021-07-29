@@ -1,6 +1,6 @@
 const express = require('express')
 require('dotenv').config()
-const router = express.Router()
+express.Router()
 const jwt = require('jsonwebtoken');
 const JwtSecretKey = process.env.key_token
 const userController = require('../controllers/user.controller');//validateUser

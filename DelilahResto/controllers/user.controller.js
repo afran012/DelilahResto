@@ -3,9 +3,9 @@
 const sequelize = require('../connection')
 
 const createUser = async (req, res) =>{
-    const { UserName, FullName, Password, Address, PhoneNumber, Email, StateID=1 } = req.body
+    const { userName, fullName, password, address, phoneNumber, email, stateID=1 } = req.body
 
-    let arrayInsertUser = [ `${UserName}`, `${FullName}`, `${Password}`, `${Address}`, `${PhoneNumber}`, `${Email}`, `${StateID}`]
+    let arrayInsertUser = [ `${userName}`, `${fullName}`, `${password}`, `${address}`, `${phoneNumber}`, `${email}`, `${stateID}`]
 
 
     console.log("arrayInsertUser",arrayInsertUser)

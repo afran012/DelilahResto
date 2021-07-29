@@ -1,26 +1,24 @@
 const sequelize = require('../connection')
 
 const createProduct = async (req, res) =>{
-    const { ProductName, ProductPrice } = req.body
+    const { productName, productPrice } = req.body
     console.log(req.body)
 
-    let arrayInsertProduct = [ `${ProductName}` ,`${ProductPrice}` ]
+    let arrayInsertProduct = [ `${productName}` ,`${productPrice}` ]
 
 
     console.log("arrayInsertProduct",arrayInsertProduct)
 
-    try {
-        const result = await sequelize.query('INSERT INTO Products( ProductName , ProductPrice ) VALUES( ?, ? )',
+    try {   
+        const result = await sequelize.query('INSERT INTO Products( productName , productPrice ) VALUES( ?, ? )',
         {replacements: arrayInsertProduct , type: sequelize.QueryTypes.INSERT })
         
         console.log(`inserción ${result}`)
         res.status(201).json({
-            message: 'Productos creado',
-            'msg':true,
-            'data': result
+            message: 'Created'
         })
     } catch (error) {
-        console.log(`error en la inserción ${error}`)
+        console.log(`Invald input. Error: ${error}`)
         res.status(500).json({error})
     }
 }
@@ -36,7 +34,7 @@ const getProduct = async (req, res) =>{
             'data': result
         })
     } catch (error) {
-        console.log(`error en la inserción ${error}`)
+        console.log(`Invald input. Error: ${error}`)
     }
 }
 
@@ -49,11 +47,10 @@ const deleteProduct = async (req, res) =>{
         console.log( "result" , result )
         res.status(204).json({
             'msg':true,
-            message: 'EProducto eliminado',
-            'data': result
+            message: 'Deleted product'
         })
     } catch (error) {
-        console.log(`error en la inserción ${error}`)
+        console.log(`Invald input. Error: ${error}`)
     }
 }
 
@@ -69,11 +66,11 @@ const updateProduct = async (req, res) =>{
 
         console.log(result)
         res.status(204).json({
-            message: 'Producto Actulizado'
+            message: 'Updated product'
     })
 
     } catch (error) {
-        console.log(`error en la inserción ${error}`)
+        console.log(`Invald input. Error: ${error}`)
     }
 }
 
