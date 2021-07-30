@@ -9,9 +9,16 @@ info:
   license:
     name: "Apache 2.0"
     url: "http://www.apache.org/licenses/LICENSE-2.0.html"
-host: "localhost"
-basePath: "/v1"
+host: "localhost:4000"
+basePath: "/api/v1"
 tags:
+
+- name: "user"
+  description: "Contains the operations of the users"
+  externalDocs:
+    description: "Find out more"
+    url: "http://delilahres.com/"
+
 - name: "product"
   description: "Contains the operations of the products"
   externalDocs:
@@ -22,16 +29,172 @@ tags:
   externalDocs:
     description: "Find out more"
     url: "http://delilahres.com/"
-- name: "user"
-  description: "Contains the operations of the users"
-  externalDocs:
-    description: "Find out more"
-    url: "http://delilahres.com/"
+
 schemes:
-- "https"
 - "http"
 
 paths:
+
+  /users/login:
+  
+    post:
+      tags:
+        - "user"
+      summary: "Login user to the Database"
+      operationId: "loginuser"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "User added to the Database"
+          required: true
+          schema:
+            $ref: "#/definitions/UsersLogin"
+      responses:
+        201:
+          description: "Created"
+          schema:
+            $ref: "#/definitions/createProducts"
+        500:
+          description: "Invald input. Error: ${error}"
+      security:
+        - store_auth:
+            - "write:users"
+
+
+  /users/signup:
+  
+  
+    post:
+      tags:
+        - "user"
+      summary: "Add a new user to the Database"
+      operationId: "adduser"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+ 
+        - in: "body"
+          name: "body"
+          description: "User added to the Database"
+          required: true
+          schema:
+            $ref: "#/definitions/Users"
+      responses:
+        201:
+          description: "Created"
+          schema:
+            $ref: "#/definitions/createProducts"
+        500:
+          description: "Invald input. Error: ${error}"
+      security:
+        - store_auth:
+            - "write:users"
+
+  
+
+  /users:
+    get:
+      tags:
+        - "user"
+      summary: "Finds all users"
+      description: "Returns a object with all existing users"
+      operationId: "getAllusers"
+      produces:
+      - "application/json"
+      parameters:
+        - in: "header"
+          name: "authorization"
+          description: "Authorization Token"
+          required: true
+          type: "string"
+
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Users"
+
+
+  /users/{id}:
+    delete:
+        tags:
+          - "user"
+        summary: "Remove user"
+        description: ""
+        operationId: "deleteUser"
+        produces:
+          - "application/json"
+        parameters:
+          - name: "id"
+            in: "path"
+            required: true
+            type: "integer"
+            format: "int64"
+            description: "Enter userId of the user to delete"
+
+          - in: "header"
+            name: "authorization"
+            description: "Authorization Token"
+            required: true
+            type: "string"
+
+        responses:
+          204:
+            description: "Deleted user"
+          500:
+            description: "Invald input. Error: ${error}`"
+        security:
+          - store_auth:
+              - "write:users"
+
+    put:
+      tags:
+        - "user"
+      summary: "Update an existing user"
+      description: ""
+      operationId: "updateuser"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          type: "integer"
+          format: "int64"
+          description: "Enter userId of the product to Update"
+        - in: "header"
+          name: "authorization"
+          required: true
+          type: "string"
+          description: "Authorization Token, you need to be an administrator to do this process"
+        - name: "body"
+          in: "body"
+          description: "username, fullname, password are required"
+          required: true
+          schema:
+            $ref: "#/definitions/Users"
+      responses:
+        204:
+          description: "Updated product"
+        500:
+          description: "Invald input. Error: ${error}"
+      security:
+        - store_auth:
+            - "write:products"
+
+
+
+
   /products:
     get:
       tags:
@@ -41,7 +204,12 @@ paths:
       operationId: "getAllProducts"
       produces:
       - "application/json"
-      parameters: []
+      parameters:
+        - in: "header"
+          name: "authorization"
+          required: true
+          type: "string"
+          description: "Authorization Token, you need to be an administrator to do this process"
       responses:
         "200":
           description: "successful operation"
@@ -49,7 +217,6 @@ paths:
             type: "array"
             items:
               $ref: "#/definitions/Products"
-
     post:
       tags:
         - "product"
@@ -70,7 +237,7 @@ paths:
           description: "Product added to the Database"
           required: true
           schema:
-            $ref: "#/definitions/Products"
+            $ref: "#/definitions/ProductsUpdate"
       responses:
         201:
           description: "Created"
@@ -149,8 +316,162 @@ paths:
         - store_auth:
             - "write:products"
 
+
+
+
+
+
+
+  /orders:
+    get:
+      tags:
+        - "order"
+      summary: "Finds all orders"
+      description: "Returns a object with all existing orders"
+      operationId: "getAllorders"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/OrderUpdate"
+    post:
+      tags:
+        - "order"
+      summary: "Add a new order to the Database"
+      operationId: "addOrder"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "header"
+          name: "authorization"
+          description: "Authorization Token"
+          required: true
+          type: "string"
+        - in: "body"
+          name: "body"
+          description: "Order added to the Database"
+          required: true
+          schema:
+            $ref: "#/definitions/OrderUpdate"
+      responses:
+        201:
+          description: "Created"
+          schema:
+            $ref: "#/definitions/createProducts"
+        500:
+          description: "Invald input. Error: ${error}"
+      security:
+        - store_auth:
+            - "write:orders"
+
+  /order/{id}:
+    delete:
+        tags:
+          - "order"
+        summary: "Remove order"
+        description: ""
+        operationId: "deleteOrder"
+        produces:
+          - "application/json"
+        parameters:
+          - name: "id"
+            in: "path"
+            required: true
+            type: "integer"
+            format: "int64"
+            description: "Enter ordertId of the order to delete"
+          - name: "Token"
+            in: "header"
+            required: true
+            type: "string"
+            description: "Authorization Token, you need to be an administrator to do this process"
+        responses:
+          200:
+            description: "Deleted order"
+          500:
+            description: "Invald input. Error: ${error}`"
+        security:
+          - store_auth:
+              - "write:products"
+
+    put:
+      tags:
+        - "order"
+      summary: "Update an existing order"
+      description: ""
+      operationId: "updateOrder"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          type: "integer"
+          format: "int64"
+          description: "Enter orderId of the order to Update"
+        - name: "Token"
+          in: "header"
+          required: true
+          type: "string"
+          description: "Authorization Token, you need to be an administrator to do this process"
+        - name: "body"
+          in: "body"
+          description: "Order name and price are required"
+          required: true
+          schema:
+            $ref: "#/definitions/OrderChange"
+      responses:
+        204:
+          description: "Updated order"
+        500:
+          description: "Invald input. Error: ${error}"
+      security:
+        - store_auth:
+            - "write:orders"
+
+ 
   
 definitions:
+  Users:
+      type: object
+      properties:
+        userName:
+          type: "string"
+          example: "FreddiMerc"
+        fullName:
+          type: "string"
+          description: "Product Price"
+          example: "Freddie Mercury"
+        password:
+          type: string
+          example: "asc123"
+        address:
+          type: string
+        phoneNumber:
+          type: string
+        email:
+          type: string
+
+
+  UsersLogin:
+      type: object
+      properties:
+        userName:
+          type: "string"
+          example: "afranadmin"
+        password:
+          type: string
+          example: "air123"
+
 
   createProducts:
     type: "object"
@@ -236,6 +557,51 @@ definitions:
         format: "int32"
         description: "Product Price"
         example: "200000"
+  OrderUpdate:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      stateId:
+        type: "integer"
+        format: "int64"
+      orderHour:
+        type: "string"
+        format: "date-time"
+        example: "12:00"
+      paymentType:
+        type: "string"
+      userID:
+        type: "integer"
+        format: "int64"
+      productIDS:
+        type: "array"
+        items:
+              type: integer
+              format: int64
+        example: [1, 2, 3]
+  OrderChange:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      stateId:
+        type: "integer"
+        format: "int64"
+      orderHour:
+        type: "string"
+        format: "date-time"
+        example: "12:00"
+      paymentType:
+        type: "string"
+      userID:
+        type: "integer"
+        format: "int64"
+
+
+  
   
 
 securityDefinitions:

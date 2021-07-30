@@ -8,7 +8,7 @@ router.get('/:id', validadteUserCredentials.validateToken , userController.getUs
 //router.get('/user/:user', userController.validateUser)
 router.post('/signup', userController.createUser)
 router.post('/login', validadteUserCredentials.validadteUserCredentials , userController.loginUser )
-router.delete('/delete/:id', validadteUserCredentials.validateAdmin ,userController.deleteUser)
-router.put('/update/:id', validadteUserCredentials.validateAdmin ,userController.updateUser)
+router.delete('/:id', validadteUserCredentials.validateAdmin ,userController.deleteUser)
+router.put('/:id', validadteUserCredentials.validateAdmin ,userController.updateUser)
 
 module.exports = router

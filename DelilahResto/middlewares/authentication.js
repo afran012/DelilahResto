@@ -6,16 +6,17 @@ const JwtSecretKey = process.env.key_token
 const userController = require('../controllers/user.controller');//validateUser
 
 const validadteUserCredentials = async ( req, res, next ) => {
-    const { user , password } = req.body
+    const { userName , password } = req.body
+    //console.log( "req.body" , req.body)
     //console.log("process.env.key_token" , process.env.key_token)
     //console.log("JwtSecretKey", JwtSecretKey)
     try {
-        const findUser = await  userController.validateUser(user)
+        const findUser = await  userController.validateUser(userName)
         if (!findUser || password !== findUser.password  ){
             return res.status(401).json({ message: "Invalid Credentials" })
         }
         const userState = findUser.stateid
-        const payload = { user, password, userState };
+        const payload = { userName, password, userState };
         const jwtToken = jwt.sign(payload, JwtSecretKey, {expiresIn: "15m"});
         //console.log("jwtToken" , jwtToken)
         process.env.temp_token=jwtToken
@@ -23,7 +24,7 @@ const validadteUserCredentials = async ( req, res, next ) => {
 
         res.status(200).json({token: jwtToken});
         //req.token = jwtToken
-        console.log("Usuario Validado")
+        //console.log("Usuario Validado")
         next();            
 
     } catch (error){
@@ -32,13 +33,15 @@ const validadteUserCredentials = async ( req, res, next ) => {
 }
 
 const validateToken = ( req , res , next ) => {
-    const token = req.headers["authorization"];
-    const jwtClient = token.split(" ")[1];
+    //const token = req.headers["authorization"];
+    const jwtClient = req.headers.authorization
+    //const jwtClient = token.split(" ")[1];
+    //console.log("token" , token)
     try{
         jwt.verify( jwtClient , JwtSecretKey , (error, decoded) => {
             console.log("decoded" , decoded)
             if(error) {
-                return res.status(401).json({msg: "token invalido"})
+                return res.status(401).json({msg: "Invalid Toker"})
             }
             console.log("decoded", decoded)
             next()
@@ -51,12 +54,15 @@ const validateToken = ( req , res , next ) => {
 
 
 const validateAdmin = ( req , res , next ) => {
-    const token = req.headers.authorization.split(" ")[1];
-    jwt.verify( token , JwtSecretKey , (error, decoded) => {
+    
+    //let token = req.headers.authorization.split(" ")[0];
+    let jwtClient = req.headers.authorization
+
+    jwt.verify( jwtClient , JwtSecretKey , (error, decoded) => {
         if(error) {
             return res.status(401).json({msg: "token invalido"})
         }
-        console.log(decoded.userState)
+        //console.log(decoded.userState)
         if (decoded.userState != 2) {
             return res.status(401).json({ message: "Permission Denied" })
         }

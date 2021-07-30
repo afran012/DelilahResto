@@ -117,7 +117,7 @@ const getOrderById = async (req, res) =>{
 
     try {
 
-        query = sqlQueries.detailOrderQuery(req.params.id)
+        const query = sqlQueries.detailOrderQuery(req.params.id)
 
         const result = await sequelize.query(query, {type: sequelize.QueryTypes.SELECT})
 
@@ -138,7 +138,7 @@ const getOrderByUserID = async (req, res) =>{
 
     try {
 
-        query = sqlQueries.detailOrderQueryByUser(req.params.id)
+        const query = sqlQueries.detailOrderQueryByUser(req.params.id)
 
         const result = await sequelize.query(query, {type: sequelize.QueryTypes.SELECT})
 

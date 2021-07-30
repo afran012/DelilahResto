@@ -11,9 +11,17 @@ const createUser = async (req, res) =>{
     console.log("arrayInsertUser",arrayInsertUser)
 
     try {
+        let exist = await sequelize.query(`SELECT u.userName 
+        FROM Users u WHERE username = '${userName}'`,
+        {type: sequelize.QueryTypes.SELECT})
+        if (exist[0]) {
+            console.log("exist" , exist[0])
+            return res.status(401).json({msg: "Existing user"})
+        }
+
         const user = await sequelize.query('INSERT INTO Users(UserName, FullName, Password, Address, PhoneNumber, Email, StateID) VALUES( ?, ?, ?, ?, ?, ?, ?)',
         {replacements: arrayInsertUser , type: sequelize.QueryTypes.INSERT } , { raw: true });
-        
+        console.log("user" , user)
         console.log(`inserción ${user}`)
         res.status(201).json({
             message: 'usuaruio creado',
@@ -59,15 +67,16 @@ const deleteUser = async (req, res) =>{
 }
 
 const updateUser = async (req, res) =>{
-    const { UserName, FullName, Password, Address, PhoneNumber, Email, StateID=1 } = req.body
+    const { userName, fullName, password, address, phoneNumber, email, stateID=1 } = req.body
     console.log("req.body" , req.body)
+    console.log("req.body" , req.params.id)
 
     try {
         const result = await sequelize.query(`UPDATE Users 
-        SET UserName = '${UserName}',  FullName = '${FullName}', 
-        Password = '${Password}',  Address = '${Address}', 
-        PhoneNumber = ${PhoneNumber}, Email = '${Email}', 
-        StateID = ${StateID} WHERE UserID = ${req.params.id}`,
+        SET userName = '${userName}',  fullName = '${fullName}', 
+        password = '${password}',  address = '${address}', 
+        phoneNumber = '${phoneNumber}', email = '${email}', 
+        stateID = ${stateID} WHERE UserID = ${req.params.id}`,
         { type: sequelize.QueryTypes.INSERT })
 
         console.log(result)
