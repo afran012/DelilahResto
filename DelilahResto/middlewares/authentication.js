@@ -41,7 +41,7 @@ const validateToken = ( req , res , next ) => {
         jwt.verify( jwtClient , JwtSecretKey , (error, decoded) => {
             console.log("decoded" , decoded)
             if(error) {
-                return res.status(401).json({msg: "Invalid Toker"})
+                return res.status(401).json({msg: "Invalid Token"})
             }
             console.log("decoded", decoded)
             next()
