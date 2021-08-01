@@ -1,13 +1,14 @@
 const express = require('express')
 const router = express.Router()
 const ordersController = require('../controllers/orders.controller')
+const validadteUserCredentials = require('../middlewares/authentication')
 
-router.get('/', ordersController.getOrders)
-router.get('/:id', ordersController.getOrderById)
-router.post('/new', ordersController.createOrder)
-router.delete('/delete/:id',ordersController.deleteOrder)
-router.put('/update/:id',ordersController.updateOrder)
-router.put('/updateState/:id',ordersController.updateState)
-router.get('/users/:id', ordersController.getOrderByUserID)
+router.get('/', validadteUserCredentials.validateAdmin ,  ordersController.getOrders)
+router.get('/:id', validadteUserCredentials.validateAdmin ,  ordersController.getOrderById)
+router.post('/', validadteUserCredentials.validateAdmin ,  ordersController.createOrder)
+router.delete('/:id', validadteUserCredentials.validateAdmin , ordersController.deleteOrder)
+router.put('/:id', validadteUserCredentials.validateAdmin , ordersController.updateOrder)
+router.put('/updateState/:id', validadteUserCredentials.validateAdmin , ordersController.updateState)
+router.get('/users/:id', validadteUserCredentials.validateAdmin ,  ordersController.getOrderByUserID)
 
 module.exports = router

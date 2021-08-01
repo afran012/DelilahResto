@@ -1,4 +1,5 @@
-const sequelize = require('../connection')
+//const sequelize = require('../connection')
+const sequelize = require('../db_connection_data')
 
 const createOrderState = async (req, res) =>{
     const { Name } = req.body

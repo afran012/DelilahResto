@@ -1,5 +1,6 @@
 // This module enabes CRUD operation on the User State
-const sequelize = require('../connection')
+//const sequelize = require('../connection')
+const sequelize = require('../db_connection_data')
 
 const createUserState = async (req, res) =>{
     const { Name } = req.body

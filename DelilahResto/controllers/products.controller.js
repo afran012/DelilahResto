@@ -1,4 +1,5 @@
-const sequelize = require("../connection");
+//const sequelize = require('../connection')
+const sequelize = require('../db_connection_data')
 
 const createProduct = async (req, res) => {
   const { productName, productPrice } = req.body;
@@ -57,13 +58,13 @@ const deleteProduct = async (req, res) => {
 };
 
 const updateProduct = async (req, res) => {
-  const { ProductName, ProductPrice } = req.body;
+  const { productName, productPrice } = req.body;
   console.log("req.body", req.body);
 
   try {
     const result = await sequelize.query(
       `UPDATE Products 
-        SET ProductName = '${ProductName}' , ProductPrice = '${ProductPrice}' 
+        SET productName = '${productName}' , productPrice = '${productPrice}' 
         WHERE ProductID = ${req.params.id}`,
       { type: sequelize.QueryTypes.INSERT }
     );

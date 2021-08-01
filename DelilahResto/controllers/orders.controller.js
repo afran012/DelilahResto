@@ -1,4 +1,5 @@
-const sequelize = require('../connection')
+//const sequelize = require('./connection')
+const sequelize = require('../db_connection_data')
 
 const sqlQueries = require('../database/sql')
 
@@ -19,9 +20,9 @@ const getProductIDS = async (products) => {
 */
 
 const createOrder = async (req, res) =>{
-    const { StateID, OrderHour, PaymentType ="Cash", UserID, productIDS } = req.body
+    const { StateID = 1, orderHour, paymentType ="Cash", userID, productIDS } = req.body
 
-    let arrayInsertOrder = [ `${StateID}`, `${OrderHour}`, `${PaymentType}`, `${UserID}` ]
+    let arrayInsertOrder = [ `${StateID}`, `${orderHour}`, `${paymentType}`, `${userID}` ]
 
     try {
 
@@ -91,13 +92,13 @@ const deleteOrder = async (req, res) =>{
 }
 
 const updateOrder = async (req, res) =>{
-    const { StateID, OrderHour, PaymentType ="Cash", UserID  } = req.body
+    const { stateId, orderHour, paymentType ="Cash", userID  } = req.body
     console.log("req.body" , req.body)
 
     try {
         const result = await sequelize.query(`UPDATE Orders 
-        SET StateID = '${StateID}',  OrderHour = '${OrderHour}', 
-        PaymentType = '${PaymentType}',  UserID = '${UserID}'
+        SET stateId = ${stateId} ,  orderHour = '${orderHour}' , 
+        paymentType = '${paymentType}' ,  userID = '${userID}'
         WHERE OrderID = ${req.params.id}`,
         { type: sequelize.QueryTypes.INSERT })
 
@@ -155,12 +156,12 @@ const getOrderByUserID = async (req, res) =>{
 
 
 const updateState = async (req, res) =>{
-    const { StateID } = req.body
+    const { stateId } = req.body
     console.log("req.body" , req.body)
 
     try {
         const result = await sequelize.query(`UPDATE Orders 
-        SET StateID = '${StateID}'
+        SET stateID = '${stateId}'
         WHERE OrderID = ${req.params.id}`,
         { type: sequelize.QueryTypes.INSERT })
 

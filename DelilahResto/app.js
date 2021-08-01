@@ -3,7 +3,8 @@ const helmet = require('helmet')
 const bodyParser = require('body-parser')
 const PORT = 4000
 const cors = require('cors')
-const sequelize = require('./connection')
+//const sequelize = require('./connection')
+const sequelize = require('./db_connection_data')
 
 
 // Routes

@@ -54,19 +54,15 @@ paths:
           schema:
             $ref: "#/definitions/UsersLogin"
       responses:
-        201:
-          description: "Created"
-          schema:
-            $ref: "#/definitions/createProducts"
+        200:
+          description: "Log in"
         500:
           description: "Invald input. Error: ${error}"
       security:
         - store_auth:
             - "write:users"
 
-
   /users/signup:
-  
   
     post:
       tags:
@@ -96,8 +92,6 @@ paths:
         - store_auth:
             - "write:users"
 
-  
-
   /users:
     get:
       tags:
@@ -110,7 +104,7 @@ paths:
       parameters:
         - in: "header"
           name: "authorization"
-          description: "Authorization Token"
+          description: "Authorization Token, you need to be an administrator to do this process. Use the login endpoint to obtain the Authorization Token"
           required: true
           type: "string"
 
@@ -142,7 +136,7 @@ paths:
 
           - in: "header"
             name: "authorization"
-            description: "Authorization Token"
+            description: "Authorization Token, you need to be an administrator to do this process. Use the login endpoint to obtain the Authorization Token"
             required: true
             type: "string"
 
@@ -176,7 +170,7 @@ paths:
           name: "authorization"
           required: true
           type: "string"
-          description: "Authorization Token, you need to be an administrator to do this process"
+          description: "Authorization Token, you need to be an administrator to do this process. Use the login endpoint to obtain the Authorization Token"
         - name: "body"
           in: "body"
           description: "username, fullname, password are required"
@@ -192,9 +186,6 @@ paths:
         - store_auth:
             - "write:products"
 
-
-
-
   /products:
     get:
       tags:
@@ -209,7 +200,7 @@ paths:
           name: "authorization"
           required: true
           type: "string"
-          description: "Authorization Token, you need to be an administrator to do this process"
+          description: "Authorization Token, you need to be an administrator to do this process. Use the login endpoint to obtain the Authorization Token"
       responses:
         "200":
           description: "successful operation"
@@ -229,7 +220,7 @@ paths:
       parameters:
         - in: "header"
           name: "authorization"
-          description: "Authorization Token"
+          description: "Authorization Token, you need to be an administrator to do this process. Use the login endpoint to obtain the Authorization Token"
           required: true
           type: "string"
         - in: "body"
@@ -265,11 +256,11 @@ paths:
             type: "integer"
             format: "int64"
             description: "Enter productId of the product to delete"
-          - name: "Token"
+          - name: "authorization"
             in: "header"
             required: true
             type: "string"
-            description: "Authorization Token, you need to be an administrator to do this process"
+            description: "Authorization Token, you need to be an administrator to do this process. Use the login endpoint to obtain the Authorization Token"
         responses:
           200:
             description: "Deleted product"
@@ -296,11 +287,12 @@ paths:
           type: "integer"
           format: "int64"
           description: "Enter productId of the product to Update"
-        - name: "Token"
+        - name: "authorization"
           in: "header"
           required: true
           type: "string"
-          description: "Authorization Token, you need to be an administrator to do this process"
+          description: "Authorization Token, you need to be an administrator to do this process. Use the login endpoint to obtain the Authorization Token"
+          
         - name: "body"
           in: "body"
           description: "Product name and price are required"
@@ -316,22 +308,28 @@ paths:
         - store_auth:
             - "write:products"
 
-
-
-
-
-
-
-  /orders:
+  /orders/users/{id}:
     get:
       tags:
         - "order"
       summary: "Finds all orders"
       description: "Returns a object with all existing orders"
-      operationId: "getAllorders"
+      operationId: "getAllordersUser"
       produces:
       - "application/json"
-      parameters: []
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          type: "integer"
+          format: "int64"
+          description: "Enter ordertId of the order to delete"
+        - name: "authorization"
+          in: "header"
+          required: true
+          type: "string"
+          description: "Authorization Token, you need to be an administrator to do this process. Use the login endpoint to obtain the Authorization Token"
+          
       responses:
         "200":
           description: "successful operation"
@@ -339,6 +337,32 @@ paths:
             type: "array"
             items:
               $ref: "#/definitions/OrderUpdate"
+
+  /orders:
+    get:
+      tags:
+      - "order"
+      summary: "Finds all orders"
+      description: "Returns a object with all existing orders"
+      operationId: "getAllorders"
+      produces:
+      - "application/json"
+      parameters:
+        - name: "authorization"
+          in: "header"
+          required: true
+          type: "string"
+          description: "Authorization Token, you need to be an administrator to do this process. Use the login endpoint to obtain the Authorization Token"
+          
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/OrderUpdate"
+
+
     post:
       tags:
         - "order"
@@ -351,7 +375,7 @@ paths:
       parameters:
         - in: "header"
           name: "authorization"
-          description: "Authorization Token"
+          description: "Authorization Token, you need to be an administrator to do this process. Use the login endpoint to obtain the Authorization Token"
           required: true
           type: "string"
         - in: "body"
@@ -359,7 +383,7 @@ paths:
           description: "Order added to the Database"
           required: true
           schema:
-            $ref: "#/definitions/OrderUpdate"
+            $ref: "#/definitions/OrderCreate"
       responses:
         201:
           description: "Created"
@@ -371,7 +395,7 @@ paths:
         - store_auth:
             - "write:orders"
 
-  /order/{id}:
+  /orders/{id}:
     delete:
         tags:
           - "order"
@@ -387,11 +411,11 @@ paths:
             type: "integer"
             format: "int64"
             description: "Enter ordertId of the order to delete"
-          - name: "Token"
+          - name: "authorization"
             in: "header"
             required: true
             type: "string"
-            description: "Authorization Token, you need to be an administrator to do this process"
+            description: "Authorization Token, you need to be an administrator to do this process. Use the login endpoint to obtain the Authorization Token"
         responses:
           200:
             description: "Deleted order"
@@ -418,11 +442,11 @@ paths:
           type: "integer"
           format: "int64"
           description: "Enter orderId of the order to Update"
-        - name: "Token"
+        - name: "authorization"
           in: "header"
           required: true
           type: "string"
-          description: "Authorization Token, you need to be an administrator to do this process"
+          description: "Authorization Token, you need to be an administrator to do this process. Use the login endpoint to obtain the Authorization Token"
         - name: "body"
           in: "body"
           description: "Order name and price are required"
@@ -438,7 +462,45 @@ paths:
         - store_auth:
             - "write:orders"
 
- 
+  /orders/updateState/{id}:
+  
+    put:
+      tags:
+        - "order"
+      summary: "Update an existing order state"
+      description: ""
+      operationId: "updateOrderState"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          type: "integer"
+          format: "int64"
+          description: "Enter orderId of the order to Update"
+        - name: "authorization"
+          in: "header"
+          required: true
+          type: "string"
+          description: "Authorization Token, you need to be an administrator to do this process. Use the login endpoint to obtain the Authorization Token"
+        - name: "body"
+          in: "body"
+          description: "Order name and price are required"
+          required: true
+          schema:
+            $ref: "#/definitions/OrderStateChange"
+      responses:
+        204:
+          description: "Updated order"
+        500:
+          description: "Invald input. Error: ${error}"
+      security:
+        - store_auth:
+            - "write:orders"
+
   
 definitions:
   Users:
@@ -548,7 +610,6 @@ definitions:
       - "productName"
       - "productPrice"
     properties:
-
       productName:
         type: "string"
         example: "Hamburger"
@@ -557,12 +618,10 @@ definitions:
         format: "int32"
         description: "Product Price"
         example: "200000"
+
   OrderUpdate:
     type: "object"
     properties:
-      id:
-        type: "integer"
-        format: "int64"
       stateId:
         type: "integer"
         format: "int64"
@@ -581,28 +640,52 @@ definitions:
               type: integer
               format: int64
         example: [1, 2, 3]
-  OrderChange:
+
+  OrderCreate:
     type: "object"
     properties:
-      id:
-        type: "integer"
-        format: "int64"
-      stateId:
-        type: "integer"
-        format: "int64"
       orderHour:
         type: "string"
-        format: "date-time"
-        example: "12:00"
+        example: "12:00:00"
       paymentType:
         type: "string"
+        example: "Cash"
       userID:
         type: "integer"
         format: "int64"
-
-
+        example: "3"
+      productIDS:
+        type: "array"
+        items:
+              type: integer
+              format: int64
+        example: [1, 2, 3, 1, 3]
   
-  
+  OrderChange:
+    type: "object"
+    properties:
+      stateId:
+        type: "integer"
+        format: "int64"
+        example: "1"
+      orderHour:
+        type: "string"
+        example: "12:00:05"
+      paymentType:
+        type: "string"
+        example: "Cash"
+      userID:
+        type: "integer"
+        format: "int64"
+        example: "4"
+
+  OrderStateChange:
+    type: "object"
+    properties:
+      stateId:
+        type: "integer"
+        format: "int64"
+        example: "1"
 
 securityDefinitions:
   store_auth:

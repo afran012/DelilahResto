@@ -57,10 +57,11 @@ const validateAdmin = ( req , res , next ) => {
     
     //let token = req.headers.authorization.split(" ")[0];
     let jwtClient = req.headers.authorization
+    //console.log("jwtClient" , req.headers.authorization)
 
     jwt.verify( jwtClient , JwtSecretKey , (error, decoded) => {
         if(error) {
-            return res.status(401).json({msg: "token invalido"})
+            return res.status(401).json({msg: "Invalid Token"})
         }
         //console.log(decoded.userState)
         if (decoded.userState != 2) {

@@ -1,6 +1,7 @@
 // This module enabes CRUD operation on the User. For example creating a new user
 
-const sequelize = require('../connection')
+//const sequelize = require('../connection')
+const sequelize = require('../db_connection_data')
 
 const createUser = async (req, res) =>{
     const { userName, fullName, password, address, phoneNumber, email, stateID=1 } = req.body
