@@ -39,14 +39,33 @@ To run the app, you have to follow the setps depicted below:
 5. The database parameters must be configured with the following characteristics:
 
 
-    conf_db_host  : 'localhost', // host
-    conf_db_name  : 'RestaurantDB', // database name
-    conf_user     : 'postgres',           // user name
-    conf_password : 'admin',               // password
+    conf_db_host  : 'localhost' // host
+    
+    conf_db_name  : 'RestaurantDB' // database name
+    
+    conf_user     : 'postgres'           // user name
+    
+    conf_password : 'admin'               // password
+    
     conf_port     : '5432' 
+    
 
 ![Captura de pantalla de 2021-08-01 16-42-20](https://user-images.githubusercontent.com/77680060/127786136-e14c2e10-3f10-4903-955d-60491eda9210.png)
 
+6. You must press the f3 key to create a new script that is linked to our database, where we will generate the entities with the SQL queries:
+
+![Captura de pantalla de 2021-08-01 17-02-50](https://user-images.githubusercontent.com/77680060/127786576-39840194-1f3d-4a46-a33b-70b9a7ddcee4.png)
+
+7.  We go to the following path /DelilahResto/database/scriptCreateTablePost.txt, the file is opened, everything that is inside is copied, and it is copied in the DBeaver script.
+
+8. After having everything copied in the DBeaver Script, press ctrl + a, and then press crtl + enter, and with this the relationship entities of our model will be created. This can be verified in the DBeaver public, where we can see the tables and their relationships, as can be seen in the following screenshot:
+
+![Captura de pantalla de 2021-08-01 18-06-57](https://user-images.githubusercontent.com/77680060/127787977-c157cd57-9c41-41a6-a38a-a23b530b9aa7.png)
+
+9. The next step is to open the project folder from the command terminal, and located in this path we write the command npm start.
+With this the database connections are ready to use. And you will see a message saying that the connection is ready, as in the following screenshot:
+
+![Captura de pantalla de 2021-08-01 18-11-15](https://user-images.githubusercontent.com/77680060/127788066-ddc86b8b-816e-427a-9056-cd08396fff4e.png)
 
 
 # API
