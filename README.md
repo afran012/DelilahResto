@@ -30,6 +30,23 @@ To run the app, you have to follow the setps depicted below:
 
 3. Open DBeaver and create a new connection by clicking on the icon as seen in the following image:
 
+![Captura de pantalla de 2021-08-01 16-18-06](https://user-images.githubusercontent.com/77680060/127785609-95577a4f-12ac-4432-911d-2380e048ef11.png)
+
+4. PostgreSQL must be selected as the database driver, as can be seen in the following screenshot:
+
+![Captura de pantalla de 2021-08-01 16-36-04](https://user-images.githubusercontent.com/77680060/127785995-d496320b-e9c0-4622-a192-f41408ef1eee.png)
+
+5. The database parameters must be configured with the following characteristics:
+
+
+    conf_db_host  : 'localhost', // host
+    conf_db_name  : 'RestaurantDB', // database name
+    conf_user     : 'postgres',           // user name
+    conf_password : 'admin',               // password
+    conf_port     : '5432' 
+
+![Captura de pantalla de 2021-08-01 16-42-20](https://user-images.githubusercontent.com/77680060/127786136-e14c2e10-3f10-4903-955d-60491eda9210.png)
+
 
 
 # API
