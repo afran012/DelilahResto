@@ -70,7 +70,7 @@ With this the database connections are ready to use. And you will see a message 
 
 # API
 
-To try out the endpoints, 
+To try out the endpoints
 
 
 
