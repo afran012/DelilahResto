@@ -70,7 +70,24 @@ With this the database connections are ready to use. And you will see a message 
 
 # API
 
-To try out the endpoints
+To test the endpoints you can test the file spec.yml, you can copy the text of this file in the Swagger editor (https://editor.swagger.io/), where you can test all the endpoints.
+
+## Create a new user:
+In this section you can create a new user, you must enter the username, full name, account password, contact number, email, address to take orders.
+You must click the Tryout button, then the Execute button to request the creation of a new user.
+It can be seen in Swagger as in the following screenshot:
+
+![Captura de pantalla de 2021-08-01 20-08-11](https://user-images.githubusercontent.com/77680060/127791800-0ff91be8-f4f7-49b0-8a1f-6f7c237775c6.png)
+
+## Login:
+
+In this section you can enter your credentials to validate your account in the database, this action is necessary for the rest of the actions available in the API. You must enter the username and password:
+![Captura de pantalla de 2021-08-01 20-14-54](https://user-images.githubusercontent.com/77680060/127792145-7d9222ef-03a7-468b-ad1b-b94834965523.png)
+
+Then you will receive a Token, which you must enter for most API operations.
+
+## Create a new order.
+
 
 
 
