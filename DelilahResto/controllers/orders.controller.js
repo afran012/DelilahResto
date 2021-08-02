@@ -1,23 +1,5 @@
-//const sequelize = require('./connection')
 const sequelize = require('../db_connection_data')
-
 const sqlQueries = require('../database/sql')
-
-
-/*
-const getProductIDS = async (products) => {
-    try {
-        let result = await sequelize.query(`SELECT productid from products where productname in (:products)`, { replacements: { products: products }, type: sequelize.QueryTypes.SELECT })
-        console.log("result xd", result)
-        return result
-    
-        } catch (error) {
-            console.log(`error en la inserción ${error}`)
-            res.status(500).json({error})
-        }
-
-}
-*/
 
 const createOrder = async (req, res) =>{
     const { StateID = 1, orderHour, paymentType ="Cash", userID, productIDS } = req.body
@@ -58,7 +40,6 @@ const createOrder = async (req, res) =>{
     }
 }
 
-
 const getOrders = async (req, res) =>{
     try {
         const result = await sequelize.query(sqlQueries.sqlOrdersList, 
@@ -73,7 +54,6 @@ const getOrders = async (req, res) =>{
         console.log(`error en la inserción ${error}`)
     }
 }
-
 
 const deleteOrder = async (req, res) =>{
     
@@ -112,8 +92,6 @@ const updateOrder = async (req, res) =>{
     }
 }
 
-
-
 const getOrderById = async (req, res) =>{
 
     try {
@@ -132,9 +110,6 @@ const getOrderById = async (req, res) =>{
     }
 }
 
-
-
-
 const getOrderByUserID = async (req, res) =>{
 
     try {
@@ -152,8 +127,6 @@ const getOrderByUserID = async (req, res) =>{
         console.log(`error en la inserción ${error}`)
     }
 }
-
-
 
 const updateState = async (req, res) =>{
     const { stateId } = req.body

@@ -19,7 +19,7 @@ const sequelize   = new Sequelize( db_data.conf_db_name, db_data.conf_user, db_d
 
 sequelize.authenticate()
     .then(() => {
-        console.log('Conectado post.');
+        console.log('Conect post.');
     }).catch(err => {
         console.error('Error de conexion:', err);
 })

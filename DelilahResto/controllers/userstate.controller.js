@@ -1,5 +1,5 @@
 // This module enabes CRUD operation on the User State
-//const sequelize = require('../connection')
+
 const sequelize = require('../db_connection_data')
 
 const createUserState = async (req, res) =>{
@@ -7,14 +7,10 @@ const createUserState = async (req, res) =>{
 
     let arrayInsertUserState = [ `${Name}` ]
 
-
-    console.log("arrayInsertUserState",arrayInsertUserState)
-
     try {
         const result = await sequelize.query('INSERT INTO UserState(Name) VALUES( ? )',
         {replacements: arrayInsertUserState , type: sequelize.QueryTypes.INSERT })
         
-        console.log(`inserción ${result}`)
         res.status(201).json({
             message: 'Estado de Usuario creada',
             'msg':true,
@@ -30,7 +26,7 @@ const createUserState = async (req, res) =>{
 const getUserState = async (req, res) =>{
     try {
         const result = await sequelize.query(`SELECT * from UserState os`, {type: sequelize.QueryTypes.SELECT})
-        console.log(result)
+
         res.status(200).json({
             message: 'Estados de usuarios existentes',
             'msg':true,
@@ -43,11 +39,10 @@ const getUserState = async (req, res) =>{
 
 
 const deleteUserState = async (req, res) =>{
-    
     try {
-        const result = await sequelize.query(`DELETE FROM UserState WHERE StateID = ${req.params.id}`)
-        console.log(req.params.id)
-        console.log( "result" , result )
+        const result = await sequelize.query(
+         `DELETE FROM UserState WHERE StateID = ${req.params.id}`
+        )
         res.status(204).json({
             'msg':true,
             message: 'Estado de orden eliminado',
@@ -60,7 +55,6 @@ const deleteUserState = async (req, res) =>{
 
 const updateUserState = async (req, res) =>{
     const { Name  } = req.body
-    console.log("req.body" , req.body)
 
     try {
         const result = await sequelize.query(`UPDATE UserState 
@@ -68,7 +62,6 @@ const updateUserState = async (req, res) =>{
         WHERE StateID = ${req.params.id}`,
         { type: sequelize.QueryTypes.INSERT })
 
-        console.log(result)
         res.status(204).json({
             message: 'Estado de Orden actulizado'
     })
@@ -96,7 +89,6 @@ const getUserStateById = async (req, res) =>{
         console.log(`error en la inserción ${error}`)
     }
 }
-
 
 exports.createUserState = createUserState
 exports.getUserState = getUserState

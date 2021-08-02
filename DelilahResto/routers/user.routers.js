@@ -5,7 +5,6 @@ const validadteUserCredentials = require('../middlewares/authentication')
 
 router.get('/', validadteUserCredentials.validateToken , userController.getUsers)
 router.get('/:id', validadteUserCredentials.validateToken , userController.getUsersById)
-//router.get('/user/:user', userController.validateUser)
 router.post('/signup', userController.createUser)
 router.post('/login', validadteUserCredentials.validadteUserCredentials , userController.loginUser )
 router.delete('/:id', validadteUserCredentials.validateAdmin ,userController.deleteUser)
