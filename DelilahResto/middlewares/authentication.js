@@ -25,7 +25,14 @@ const validadteUserCredentials = async ( req, res, next ) => {
 }
 
 const validateToken = ( req , res , next ) => {
-    const jwtClient = req.headers.authorization;
+    let jwtClient = null
+    if (req.headers.authorization.split(" ").length == 2 ){
+        jwtClient = req.headers.authorization.split(" ")[1]
+    }
+    else{
+        jwtClient = req.headers.authorization
+    }
+
     try{
         jwt.verify( jwtClient , JwtSecretKey , (error, decoded) => {
             console.log("decoded" , decoded)
@@ -43,7 +50,13 @@ const validateToken = ( req , res , next ) => {
 
 
 const validateAdmin = ( req , res , next ) => {
-    let jwtClient = req.headers.authorization
+    let jwtClient = null
+    if (req.headers.authorization.split(" ").length == 2 ){
+        jwtClient = req.headers.authorization.split(" ")[1]
+    }
+    else{
+        jwtClient = req.headers.authorization
+    }
 
     jwt.verify( jwtClient , JwtSecretKey , (error, decoded) => {
         if(error) {
