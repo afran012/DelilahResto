@@ -57,6 +57,14 @@ To run the app, you have to follow the steps shown below:
 
 ![Captura de pantalla de 2021-08-01 18-06-57](https://user-images.githubusercontent.com/77680060/127787977-c157cd57-9c41-41a6-a38a-a23b530b9aa7.png)
 
+8.2. Create a .env file in the root directory of your project. Add environment-specific variables on new lines in the form of NAME=VALUE. For example:
+
+DB_HOST=localhost
+DB_USER=root
+DB_PASS=s1mpl3
+key_token=asdfasdfasdfvb1234
+temp_token=1
+
 9. The next step is to open the project folder from the command terminal, and located in this path we write the command npm start.
 With this the database connections are ready to use. And you will see a message saying that the connection is ready, as in the following screenshot:
 
