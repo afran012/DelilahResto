@@ -1,9 +1,9 @@
 # DelilahRest-
 # Description
 
-En este proyecto tiene como objetivo definir una REST API, que sea capaz de agregar, eliminar y modificar la infomación de una base de datos para un restaurante llamado Delilah.
+The objective of this project is to define a REST API, which is capable of adding, deleting and modifying the information of a database for a restaurant called Delilah.
 
-Para este proyecto se usaron las siguientes tecnologias:
+The following technologies were used for this project:
 1.   body-parser : 
 2.   cors :
 3.   dotenv :
@@ -87,6 +87,11 @@ In this section you can enter your credentials to validate your account in the d
 Then you will receive a Token, which you must enter for most API operations.
 
 ## Create a new order.
+
+
+In this request a new order can be generated. You must enter the time the order was made, the type of payment, the user ID, and an array with the IDS of the products that the order contains.
+
+![Captura de pantalla de 2021-08-01 20-39-23](https://user-images.githubusercontent.com/77680060/127793398-a32d37bb-eeef-4ba1-b632-25606d2ae2d0.png)
 
 
 
