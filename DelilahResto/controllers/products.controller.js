@@ -50,7 +50,6 @@ const deleteProduct = async (req, res) => {
 
 const updateProduct = async (req, res) => {
   const { productName, productPrice } = req.body;
-  console.log("req.body", req.body);
 
   try {
     const result = await sequelize.query(

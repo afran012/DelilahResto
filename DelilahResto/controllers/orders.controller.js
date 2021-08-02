@@ -3,13 +3,9 @@ const sqlQueries = require('../database/sql')
 
 const createOrder = async (req, res) =>{
     const { StateID = 1, orderHour, paymentType ="Cash", userID, productIDS } = req.body
-
     let arrayInsertOrder = [ `${StateID}`, `${orderHour}`, `${paymentType}`, `${userID}` ]
 
-    try {
-
-        console.log("productIDS",productIDS)
-    
+    try {    
         const result = await sequelize.query('INSERT INTO Orders(StateID, OrderHour, PaymentType, UserID) VALUES( ?, ?, ?, ? ); ',
         {replacements: arrayInsertOrder , type: sequelize.QueryTypes.INSERT })
 
@@ -17,13 +13,10 @@ const createOrder = async (req, res) =>{
 
         let orderID = await sequelize.query("SELECT currval ('orders_orderid_seq')",
         { type: sequelize.QueryTypes.SELECT })
-        console.log(orderID)
         orderID = orderID[0].currval
 
         // Now we start dynamically inserting the products associated to the order  
-        console.log('productIDS2', productIDS)    
         productIDS.forEach(async (productID) => {
-                console.log('Inserting productID', productID, "to order", orderID) 
                 let arrayInsertProductOrder = [ `${orderID}` ,`${productID}` ]
                 await sequelize.query('INSERT INTO ProductOrder( orderID , productID ) VALUES( ?, ? )',
                 {replacements: arrayInsertProductOrder , type: sequelize.QueryTypes.INSERT })
@@ -44,7 +37,6 @@ const getOrders = async (req, res) =>{
     try {
         const result = await sequelize.query(sqlQueries.sqlOrdersList, 
             {type: sequelize.QueryTypes.SELECT})
-        console.log(result)
         res.status(200).json({
             message: 'Ordenes existentes',
             'msg':true,
@@ -59,8 +51,6 @@ const deleteOrder = async (req, res) =>{
     
     try {
         const result = await sequelize.query(`DELETE FROM Orders WHERE OrderID = ${req.params.id}`)
-        console.log(req.params.id)
-        console.log( "result" , result )
         res.status(204).json({
             'msg':true,
             message: 'orden eliminado',
@@ -73,7 +63,6 @@ const deleteOrder = async (req, res) =>{
 
 const updateOrder = async (req, res) =>{
     const { stateId, orderHour, paymentType ="Cash", userID  } = req.body
-    console.log("req.body" , req.body)
 
     try {
         const result = await sequelize.query(`UPDATE Orders 
@@ -82,7 +71,6 @@ const updateOrder = async (req, res) =>{
         WHERE OrderID = ${req.params.id}`,
         { type: sequelize.QueryTypes.INSERT })
 
-        console.log(result)
         res.status(204).json({
             message: 'Orden actulizado'
     })
@@ -130,7 +118,6 @@ const getOrderByUserID = async (req, res) =>{
 
 const updateState = async (req, res) =>{
     const { stateId } = req.body
-    console.log("req.body" , req.body)
 
     try {
         const result = await sequelize.query(`UPDATE Orders 
@@ -138,7 +125,6 @@ const updateState = async (req, res) =>{
         WHERE OrderID = ${req.params.id}`,
         { type: sequelize.QueryTypes.INSERT })
 
-        console.log(result)
         res.status(204).json({
             message: 'Estado actulizado',
             'data': result

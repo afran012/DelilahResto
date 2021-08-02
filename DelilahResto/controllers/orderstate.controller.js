@@ -24,7 +24,6 @@ const createOrderState = async (req, res) =>{
 const getOrderState = async (req, res) =>{
     try {
         const result = await sequelize.query(`SELECT * from OrderState os`, {type: sequelize.QueryTypes.SELECT})
-        console.log(result)
         res.status(200).json({
             message: 'Estados de ordenes existentes',
             'msg':true,
@@ -59,7 +58,6 @@ const updateOrderState = async (req, res) =>{
         WHERE StateID = ${req.params.id}`,
         { type: sequelize.QueryTypes.INSERT })
 
-        console.log(result)
         res.status(204).json({
             message: 'Estado de Orden actulizado'
     })
